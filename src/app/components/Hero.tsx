@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router';
 
 export function Hero() {
   return (
@@ -35,21 +36,23 @@ export function Hero() {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button 
+            <Link 
+              to="/signup"
               className="group px-8 py-4 rounded-xl bg-gradient-to-r from-[#6F42C1] to-[#007BFF] text-white transition-all hover:shadow-lg hover:shadow-[#6F42C1]/30 hover:scale-105"
             >
               <span className="flex items-center gap-2">
                 Get Started
                 <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
               </span>
-            </button>
+            </Link>
             
-            <button 
+            <Link 
+              to="/geo-analytics"
               className="px-8 py-4 rounded-xl border-2 transition-all hover:bg-[#F8F9FC]"
               style={{ borderColor: '#007BFF', color: '#007BFF' }}
             >
               See the Network
-            </button>
+            </Link>
           </div>
         </div>
       </div>

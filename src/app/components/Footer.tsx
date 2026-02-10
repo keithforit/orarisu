@@ -1,22 +1,49 @@
+import { Link, useLocation } from 'react-router';
+
 export function Footer() {
+  const location = useLocation();
+  
   const footerSections = [
     {
       title: 'Platform',
-      links: ['AI Content Studio', 'GEO Analytics', 'Smart Attribution', 'API Access'],
+      links: [
+        { name: 'Content Studio', to: '/content-studio' },
+        { name: 'GEO Analytics', to: '/geo-analytics' },
+        { name: 'Aura Network', to: '/aura-network' },
+        { name: 'Adaptive Experience', to: '/adaptive' },
+      ],
     },
     {
       title: 'Solutions',
-      links: ['For Brands', 'For Agencies', 'For Publishers', 'Enterprise'],
+      links: [
+        { name: 'For Brands', to: '/adaptive' },
+        { name: 'For Agencies', to: '/adaptive' },
+        { name: 'For Publishers', to: '/adaptive' },
+        { name: 'Compliance', to: '/compliance' },
+      ],
     },
     {
       title: 'Resources',
-      links: ['Documentation', 'Case Studies', 'Blog', 'Support'],
+      links: [
+        { name: 'Pricing', to: '/pricing' },
+        { name: 'Documentation', to: '#' },
+        { name: 'Case Studies', to: '#' },
+        { name: 'Blog', to: '#' },
+        { name: 'Support', to: '#' },
+      ],
     },
     {
       title: 'Company',
-      links: ['About', 'Careers', 'Contact', 'Privacy'],
+      links: [
+        { name: 'About', to: '/about' },
+        { name: 'Careers', to: '#' },
+        { name: 'Contact', to: '/contact' },
+        { name: 'Privacy', to: '#' },
+      ],
     },
   ];
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <footer className="py-16 bg-white border-t" style={{ borderColor: '#6F42C120' }}>
@@ -41,13 +68,41 @@ export function Footer() {
               <ul className="space-y-2">
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
-                    <a 
-                      href="#" 
-                      className="text-sm transition-colors hover:opacity-100"
-                      style={{ color: '#0D1117', opacity: 0.6 }}
-                    >
-                      {link}
-                    </a>
+                    {link.to.startsWith('#') ? (
+                      <a 
+                        href={link.to} 
+                        className="text-sm transition-colors"
+                        style={{ 
+                          color: '#0D1117', 
+                          opacity: 0.6 
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.color = '#007BFF'}
+                        onMouseLeave={(e) => e.currentTarget.style.color = '#0D1117'}
+                      >
+                        {link.name}
+                      </a>
+                    ) : (
+                      <Link 
+                        to={link.to} 
+                        className="text-sm transition-colors"
+                        style={{ 
+                          color: isActive(link.to) ? '#007BFF' : '#0D1117', 
+                          opacity: isActive(link.to) ? 1 : 0.6 
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isActive(link.to)) {
+                            e.currentTarget.style.color = '#007BFF';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isActive(link.to)) {
+                            e.currentTarget.style.color = '#0D1117';
+                          }
+                        }}
+                      >
+                        {link.name}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
