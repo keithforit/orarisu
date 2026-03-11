@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { Menu } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import mediverseLogo from "figma:asset/033be242c2b57d0c297161f9934e633207a10d29.png";
+import mediverseLogo from "../../assets/033be242c2b57d0c297161f9934e633207a10d29.png";
 import { useLanguage } from "../contexts/LanguageContext";
 import LanguageSwitcher from "./LanguageSwitcher";
 
@@ -17,7 +17,7 @@ export default function Header() {
           <Link to="/" className="flex items-center gap-3 group">
             <img src={mediverseLogo} alt="Mediverse" className="h-8 w-auto" />
           </Link>
-          
+
           <nav className="hidden md:flex items-center gap-8">
             <Link to="/" className="text-gray-700 hover:text-indigo-600 transition-colors font-medium">
               Home
@@ -32,9 +32,9 @@ export default function Header() {
 
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
-            
+
             <Link to="/login">
-              <Button 
+              <Button
                 variant="outline"
                 className="hidden sm:block border-gray-300 text-gray-700 hover:bg-gray-50 px-6 rounded-xl"
               >
@@ -46,7 +46,7 @@ export default function Header() {
                 {t("header.apply")}
               </Button>
             </Link>
-            
+
             <button
               className="md:hidden p-2 text-gray-700"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -55,7 +55,7 @@ export default function Header() {
             </button>
           </div>
         </div>
-        
+
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200">
@@ -70,7 +70,7 @@ export default function Header() {
                 Services
               </Link>
               <Link to="/login">
-                <Button 
+                <Button
                   variant="outline"
                   className="w-full border-gray-300 text-gray-700 hover:bg-gray-50 rounded-xl"
                 >
