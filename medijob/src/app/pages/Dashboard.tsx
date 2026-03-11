@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { Bell, Users, FileText, Calendar, Clock, UserX, AlertCircle, LogOut, User, AlarmClock } from "lucide-react";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-const mediverseLogo = "https://placehold.co/200x60";
+import mediverseLogo from "../../assets/033be242c2b57d0c297161f9934e633207a10d29.png";
 import { useLanguage } from "../contexts/LanguageContext";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import NotificationDropdown from "../components/NotificationDropdown";

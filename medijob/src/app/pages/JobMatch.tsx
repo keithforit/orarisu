@@ -5,7 +5,7 @@ import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Textarea } from "../components/ui/textarea";
 import { Checkbox } from "../components/ui/checkbox";
-import mediverseLogo from "figma:asset/033be242c2b57d0c297161f9934e633207a10d29.png";
+import mediverseLogo from "../../assets/033be242c2b57d0c297161f9934e633207a10d29.png";
 import { useLanguage } from "../contexts/LanguageContext";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import NotificationDropdown from "../components/NotificationDropdown";
@@ -33,7 +33,7 @@ export default function JobMatch() {
   const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const [inputMethod, setInputMethod] = useState<"text" | "file">("text");
   const [jobs, setJobs] = useState<JobInput[]>([{ id: "1" }]);
   const [analyzing, setAnalyzing] = useState(false);
@@ -54,7 +54,7 @@ export default function JobMatch() {
   };
 
   const handleJobDescriptionChange = (jobId: string, description: string) => {
-    setJobs(jobs.map(job => 
+    setJobs(jobs.map(job =>
       job.id === jobId ? { ...job, description } : job
     ));
   };
@@ -62,14 +62,14 @@ export default function JobMatch() {
   const handleFileUpload = (jobId: string, event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setJobs(jobs.map(job => 
+      setJobs(jobs.map(job =>
         job.id === jobId ? { ...job, file, fileName: file.name } : job
       ));
     }
   };
 
   const handleRemoveFile = (jobId: string) => {
-    setJobs(jobs.map(job => 
+    setJobs(jobs.map(job =>
       job.id === jobId ? { ...job, file: undefined, fileName: undefined } : job
     ));
   };
@@ -77,30 +77,30 @@ export default function JobMatch() {
   const handleAnalyze = () => {
     setAnalyzing(true);
     setShowResults(false);
-    
+
     // Simulate AI analysis
     setTimeout(() => {
       // Mock results based on the jobs
       const mockResults: JobResult[] = jobs.map((job, index) => {
         const scores = [5, 4, 3, 2, 1];
         const score = scores[index % scores.length];
-        
+
         return {
           id: job.id,
           jobTitle: job.description?.split('\n')[0]?.substring(0, 50) || `Job Position ${index + 1}`,
           matchingScore: score,
-          reason: score >= 4 
+          reason: score >= 4
             ? "優れたスキルマッチと豊富な経験。候補者のバックグラウンドはこのポジションに非常に適しています。"
             : score === 3
-            ? "適切なスキルセットですが、いくつかの領域でさらなる経験が必要です。"
-            : "スキルのギャップがあり、このポジションには経験不足です。",
+              ? "適切なスキルセットですが、いくつかの領域でさらなる経験が必要です。"
+              : "スキルのギャップがあり、このポジションには経験不足です。",
           proposalReason: score >= 4
             ? "この求人は候補者のキャリア目標と完全に一致し、成長の機会を提供します。チームは協力的で、候補者のコミュニケーションスキルを活かせる環境です。"
             : score === 3
-            ? "この求人は候補者のスキルを活かせますが、一部のギャップを埋めるためのトレーニングが必要になる可能性があります。"
-            : "",
+              ? "この求人は候補者のスキルを活かせますが、一部のギャップを埋めるためのトレーニングが必要になる可能性があります。"
+              : "",
           jobImage: "このポジションでは、候補者は日々の業務でチームと密接に協力し、プロジェクトをリードする機会があります。",
-          postJoinImage: score >= 3 
+          postJoinImage: score >= 3
             ? "入社後、候補者はチームの重要なメンバーとして、プロジェクトの計画と実行に貢献します。メンターシップを受けながら、リーダーシップスキルを開発する機会があります。"
             : "",
           futureProspects: score >= 3
@@ -142,13 +142,13 @@ export default function JobMatch() {
 
     // Get selected job results
     const selectedJobResults = results.filter(result => selectedJobs.has(result.id));
-    
+
     // Store in localStorage
     const existingJobs = localStorage.getItem(`matchedJobs_${id}`);
     const jobsList = existingJobs ? JSON.parse(existingJobs) : [];
     const updatedJobs = [...jobsList, ...selectedJobResults];
     localStorage.setItem(`matchedJobs_${id}`, JSON.stringify(updatedJobs));
-    
+
     alert(t("match.jobsAddedToProfile"));
     navigate(`/applicants/${id}`);
   };
@@ -159,11 +159,10 @@ export default function JobMatch() {
         {[1, 2, 3, 4, 5].map((star) => (
           <Star
             key={star}
-            className={`w-5 h-5 ${
-              star <= score
+            className={`w-5 h-5 ${star <= score
                 ? "fill-yellow-400 text-yellow-400"
                 : "fill-gray-200 text-gray-200"
-            }`}
+              }`}
           />
         ))}
       </div>
@@ -185,7 +184,7 @@ export default function JobMatch() {
 
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
-              
+
               <NotificationDropdown />
 
               <Link to="/">
@@ -237,7 +236,7 @@ export default function JobMatch() {
               </button>
             )}
           </div>
-          
+
           {!inputSectionCollapsed && (
             <>
               <div className="flex gap-4 mb-6">

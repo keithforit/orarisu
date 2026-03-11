@@ -4,7 +4,7 @@ import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useState } from "react";
-const mediverseLogo = "https://placehold.co/120x40?text=Mediverse";
+import mediverseLogo from "../../assets/033be242c2b57d0c297161f9934e633207a10d29.png";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import NotificationDropdown from "../components/NotificationDropdown";
 

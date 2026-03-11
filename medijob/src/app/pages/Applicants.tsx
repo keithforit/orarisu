@@ -4,7 +4,7 @@ import { Bell, LogOut, Search, Download, Eye, Filter, ArrowUpDown, Plus, Trash2,
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import mediverseLogo from "figma:asset/033be242c2b57d0c297161f9934e633207a10d29.png";
+import mediverseLogo from "../../assets/033be242c2b57d0c297161f9934e633207a10d29.png";
 import { useLanguage, getJobKey, getStatusKey, getActionKey } from "../contexts/LanguageContext";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import NotificationDropdown from "../components/NotificationDropdown";
@@ -32,7 +32,7 @@ interface Applicant {
 
 export default function Applicants() {
   const { t } = useLanguage();
-  
+
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<ApplicantStatus | "All">("All");
   const [sortField, setSortField] = useState<SortField | null>(null);
@@ -51,21 +51,21 @@ export default function Applicants() {
     if (stored) {
       const updates = JSON.parse(stored);
       setApplicantStatuses(updates);
-      
+
       // Check if there's a recently updated applicant
       const recentUpdate = localStorage.getItem("recentStatusUpdate");
       if (recentUpdate) {
         const { id, oldStatus, newStatus } = JSON.parse(recentUpdate);
-        
+
         // If moved from Screening to another status, animate
         if (oldStatus === "Screening" && newStatus !== "Screening") {
           setAnimatingOut(id);
-          
+
           // After fade out, trigger fade in
           setTimeout(() => {
             setAnimatingOut(null);
             setAnimatingIn(id);
-            
+
             // Clear animating in after animation completes
             setTimeout(() => {
               setAnimatingIn(null);
@@ -197,13 +197,13 @@ export default function Applicants() {
       ...prev,
       [applicantId]: newStatus
     }));
-    
+
     // Store status updates in localStorage
     localStorage.setItem("applicantStatusUpdates", JSON.stringify({
       ...applicantStatuses,
       [applicantId]: newStatus
     }));
-    
+
     // Store recent status update for animation
     const applicant = applicants.find(a => a.id === applicantId);
     if (applicant) {
@@ -286,7 +286,7 @@ export default function Applicants() {
 
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
-              
+
               <NotificationDropdown />
 
               <Link to="/">
@@ -311,14 +311,14 @@ export default function Applicants() {
             <h1 className="text-4xl font-bold text-gray-900 mb-2">{t("applicants.title")}</h1>
             <p className="text-gray-600 text-lg">{t("applicants.subtitle")}</p>
           </div>
-          
+
           {/* Action Buttons */}
           <div className="flex gap-3">
             {/* Export/Import Button with Dropdown */}
             <div className="relative">
               <div className="flex">
                 {buttonMode === "export" ? (
-                  <Button 
+                  <Button
                     onClick={handleExport}
                     className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all rounded-r-none"
                   >
@@ -335,7 +335,7 @@ export default function Applicants() {
                       className="hidden"
                     />
                     <label htmlFor="import-file">
-                      <Button 
+                      <Button
                         as="span"
                         className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all rounded-r-none cursor-pointer"
                       >
@@ -347,16 +347,15 @@ export default function Applicants() {
                 )}
                 <Button
                   onClick={() => setShowDropdown(!showDropdown)}
-                  className={`${
-                    buttonMode === "export"
+                  className={`${buttonMode === "export"
                       ? "bg-gradient-to-r from-green-700 to-green-800 hover:from-green-800 hover:to-green-900"
                       : "bg-gradient-to-r from-blue-700 to-blue-800 hover:from-blue-800 hover:to-blue-900"
-                  } text-white shadow-lg hover:shadow-xl transition-all rounded-l-none border-l border-white/20 px-2`}
+                    } text-white shadow-lg hover:shadow-xl transition-all rounded-l-none border-l border-white/20 px-2`}
                 >
                   <ChevronDown className="w-4 h-4" />
                 </Button>
               </div>
-              
+
               {/* Dropdown Menu */}
               {showDropdown && (
                 <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-10">
@@ -377,7 +376,7 @@ export default function Applicants() {
                 </div>
               )}
             </div>
-            
+
             <Link to="/add-candidate">
               <Button className="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white shadow-lg hover:shadow-xl transition-all">
                 <Plus className="w-4 h-4 mr-2" />
@@ -440,7 +439,7 @@ export default function Applicants() {
               </h2>
               <p className="text-gray-600 text-sm mt-1">{t("applicants.newApplicantsSubtitle")}</p>
             </div>
-            
+
             <Card className="shadow-xl overflow-hidden mb-8">
               <div className="overflow-x-auto overflow-y-visible">
                 <table className="w-full">
@@ -480,13 +479,12 @@ export default function Applicants() {
                       const isAnimatingOut = animatingOut === applicant.id;
                       // Don't show if it's being moved to active (status changed from Screening)
                       if (currentStatus !== "Screening") return null;
-                      
+
                       return (
-                        <tr 
-                          key={applicant.id} 
-                          className={`hover:bg-purple-50/50 transition-all duration-400 group ${
-                            isAnimatingOut ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
-                          }`}
+                        <tr
+                          key={applicant.id}
+                          className={`hover:bg-purple-50/50 transition-all duration-400 group ${isAnimatingOut ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+                            }`}
                         >
                           <td className="px-6 py-3 whitespace-nowrap relative">
                             {applicant.lastActivity && (
@@ -562,7 +560,7 @@ export default function Applicants() {
               </h2>
               <p className="text-gray-600 text-sm mt-1">{t("applicants.activeApplicantsSubtitle")}</p>
             </div>
-            
+
             <Card className="shadow-xl overflow-hidden">
               <div className="overflow-x-auto overflow-y-visible">
                 <table className="w-full">
@@ -613,10 +611,10 @@ export default function Applicants() {
                       const isAnimatingIn = animatingIn === applicant.id;
                       // Only show if it has an active status (not Screening)
                       if (currentStatus === "Screening") return null;
-                      
+
                       return (
-                        <tr 
-                          key={applicant.id} 
+                        <tr
+                          key={applicant.id}
                           className={`hover:bg-indigo-50/50 transition-all duration-600 group ${isAnimatingIn ? 'animate-fadeInSlide' : ''}`}
                         >
                           <td className="px-6 py-3 whitespace-nowrap relative">

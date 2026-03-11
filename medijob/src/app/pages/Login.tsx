@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { Mail, Lock, ArrowLeft } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
-import mediverseLogo from "figma:asset/033be242c2b57d0c297161f9934e633207a10d29.png";
+import mediverseLogo from "../../assets/033be242c2b57d0c297161f9934e633207a10d29.png";
 import { useLanguage } from "../contexts/LanguageContext";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 
@@ -20,17 +20,17 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true);
     setError("");
-    
+
     // Simulate login process
     await new Promise(resolve => setTimeout(resolve, 1500));
-    
+
     // Check credentials
     if (email === "nami@for-it.co.jp" && password === "nami") {
       navigate("/dashboard");
     } else {
       setError("Invalid email or password");
     }
-    
+
     setIsLoading(false);
   };
 
@@ -43,15 +43,15 @@ export default function Login() {
           backgroundSize: '40px 40px'
         }}></div>
       </div>
-      
+
       {/* Gradient Overlays */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-500 rounded-full blur-[150px] opacity-20"></div>
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-500 rounded-full blur-[150px] opacity-20"></div>
 
       {/* Top Bar */}
       <div className="absolute top-8 left-0 right-0 flex items-center justify-between px-8">
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="text-white/80 hover:text-white transition-colors flex items-center gap-2 group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
@@ -70,9 +70,9 @@ export default function Login() {
         <Card className="bg-white/95 backdrop-blur-xl shadow-2xl p-8 rounded-3xl border border-white/20">
           {/* Logo */}
           <div className="flex justify-center mb-6">
-            <img 
-              src={mediverseLogo} 
-              alt="Mediverse Logo" 
+            <img
+              src={mediverseLogo}
+              alt="Mediverse Logo"
               className="h-10 object-contain"
             />
           </div>

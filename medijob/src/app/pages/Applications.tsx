@@ -4,7 +4,7 @@ import { Bell, LogOut, Search, Eye, Filter, ChevronDown, ChevronUp, Trash2 } fro
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import mediverseLogo from "figma:asset/033be242c2b57d0c297161f9934e633207a10d29.png";
+import mediverseLogo from "../../assets/033be242c2b57d0c297161f9934e633207a10d29.png";
 import { useLanguage, getJobKey } from "../contexts/LanguageContext";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import NotificationDropdown from "../components/NotificationDropdown";
@@ -21,7 +21,7 @@ interface Application {
 
 export default function Applications() {
   const { t } = useLanguage();
-  
+
   const [searchTerm, setSearchTerm] = useState("");
   const [isCancelledExpanded, setIsCancelledExpanded] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
@@ -121,7 +121,7 @@ export default function Applications() {
 
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
-              
+
               <NotificationDropdown />
 
               <Link to="/">
@@ -171,7 +171,7 @@ export default function Applications() {
           </h2>
           <p className="text-gray-600 text-sm mt-1">{t("applications.pendingSubtitle")}</p>
         </div>
-        
+
         <Card className="shadow-xl overflow-hidden mb-8">
           <div className="overflow-x-auto overflow-y-visible">
             <table className="w-full">
@@ -259,7 +259,7 @@ export default function Applications() {
                 )}
               </Button>
             </div>
-            
+
             {isCancelledExpanded && (
               <Card className="shadow-xl overflow-hidden mb-8">
                 <div className="overflow-x-auto overflow-y-visible">
