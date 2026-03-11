@@ -4,7 +4,8 @@ import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useState } from "react";
-const mediverseLogo = "https://placehold.co/120x40?text=Mediverse"; import LanguageSwitcher from "../components/LanguageSwitcher";
+const mediverseLogo = "https://placehold.co/120x40?text=Mediverse";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 import NotificationDropdown from "../components/NotificationDropdown";
 
 export default function Calendar() {
@@ -165,10 +166,10 @@ export default function Calendar() {
                     key={i}
                     disabled={!isCurrentMonth}
                     className={`py-3 text-sm rounded-lg transition-colors ${isToday
-                        ? 'bg-purple-600 text-white font-bold shadow-lg'
-                        : isCurrentMonth
-                          ? 'hover:bg-purple-50 text-gray-900 hover:shadow-md'
-                          : 'text-gray-300 cursor-default'
+                      ? 'bg-purple-600 text-white font-bold shadow-lg'
+                      : isCurrentMonth
+                        ? 'hover:bg-purple-50 text-gray-900 hover:shadow-md'
+                        : 'text-gray-300 cursor-default'
                       }`}
                   >
                     {isCurrentMonth ? dayNumber : ''}
@@ -214,8 +215,8 @@ export default function Calendar() {
                     </div>
                   </div>
                   <span className={`px-3 py-1.5 text-sm font-medium rounded-full ${interview.status === 'confirmed'
-                      ? 'bg-green-100 text-green-700'
-                      : 'bg-yellow-100 text-yellow-700'
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-yellow-100 text-yellow-700'
                     }`}>
                     {interview.status === 'confirmed' ? 'Confirmed' : 'Pending'}
                   </span>
