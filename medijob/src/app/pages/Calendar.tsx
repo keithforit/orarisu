@@ -4,8 +4,7 @@ import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useState } from "react";
-import mediverseLogo from "figma:asset/033be242c2b57d0c297161f9934e633207a10d29.png";
-import LanguageSwitcher from "../components/LanguageSwitcher";
+const mediverseLogo = "https://placehold.co/120x40?text=Mediverse"; import LanguageSwitcher from "../components/LanguageSwitcher";
 import NotificationDropdown from "../components/NotificationDropdown";
 
 export default function Calendar() {
@@ -42,7 +41,7 @@ export default function Calendar() {
   // Simple date picker logic
   const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
-  
+
   const currentMonth = selectedDate.getMonth();
   const currentYear = selectedDate.getFullYear();
 
@@ -66,15 +65,15 @@ export default function Calendar() {
               </Link>
               <span className="text-xl font-semibold text-gray-800">{t("calendar.title")}</span>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
-              
+
               <NotificationDropdown />
-              
+
               <Link to="/">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="flex items-center gap-2 border-gray-300 text-gray-700 hover:bg-gray-50"
                 >
                   <LogOut className="w-4 h-4" />
@@ -109,11 +108,11 @@ export default function Calendar() {
                 {t("calendar.title")}
               </h1>
               <p className="text-purple-100">
-                {t("calendar.today")} - {new Date().toLocaleDateString(undefined, { 
-                  weekday: 'long', 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
+                {t("calendar.today")} - {new Date().toLocaleDateString(undefined, {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
                 })}
               </p>
             </div>
@@ -123,7 +122,7 @@ export default function Calendar() {
         {/* Date Picker */}
         <div className="mb-8 bg-white p-6 relative rounded-2xl shadow-lg">
           <div aria-hidden="true" className="absolute border border-[#f1f1f3] border-solid inset-0 pointer-events-none rounded-2xl shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]" />
-          
+
           <div className="relative">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold text-gray-900">{t("calendar.selectDate")}</h3>
@@ -145,7 +144,7 @@ export default function Calendar() {
                 </button>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-7 gap-2 text-center">
               {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
                 <div key={day} className="text-sm font-medium text-gray-500 py-2">
@@ -157,21 +156,20 @@ export default function Calendar() {
                 const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
                 const dayNumber = i - firstDay + 1;
                 const isCurrentMonth = dayNumber > 0 && dayNumber <= daysInMonth;
-                const isToday = isCurrentMonth && dayNumber === new Date().getDate() && 
-                               currentMonth === new Date().getMonth() && 
-                               currentYear === new Date().getFullYear();
-                
+                const isToday = isCurrentMonth && dayNumber === new Date().getDate() &&
+                  currentMonth === new Date().getMonth() &&
+                  currentYear === new Date().getFullYear();
+
                 return (
                   <button
                     key={i}
                     disabled={!isCurrentMonth}
-                    className={`py-3 text-sm rounded-lg transition-colors ${
-                      isToday 
-                        ? 'bg-purple-600 text-white font-bold shadow-lg' 
+                    className={`py-3 text-sm rounded-lg transition-colors ${isToday
+                        ? 'bg-purple-600 text-white font-bold shadow-lg'
                         : isCurrentMonth
-                        ? 'hover:bg-purple-50 text-gray-900 hover:shadow-md'
-                        : 'text-gray-300 cursor-default'
-                    }`}
+                          ? 'hover:bg-purple-50 text-gray-900 hover:shadow-md'
+                          : 'text-gray-300 cursor-default'
+                      }`}
                   >
                     {isCurrentMonth ? dayNumber : ''}
                   </button>
@@ -198,7 +196,7 @@ export default function Calendar() {
               className="bg-white p-6 relative rounded-2xl shadow-lg hover:shadow-xl transition-all"
             >
               <div aria-hidden="true" className="absolute border border-[#f1f1f3] border-solid inset-0 pointer-events-none rounded-2xl shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]" />
-              
+
               <div className="relative">
                 {/* Header with Candidate Info */}
                 <div className="flex items-start justify-between mb-4">
@@ -215,11 +213,10 @@ export default function Calendar() {
                       </p>
                     </div>
                   </div>
-                  <span className={`px-3 py-1.5 text-sm font-medium rounded-full ${
-                    interview.status === 'confirmed' 
-                      ? 'bg-green-100 text-green-700' 
+                  <span className={`px-3 py-1.5 text-sm font-medium rounded-full ${interview.status === 'confirmed'
+                      ? 'bg-green-100 text-green-700'
                       : 'bg-yellow-100 text-yellow-700'
-                  }`}>
+                    }`}>
                     {interview.status === 'confirmed' ? 'Confirmed' : 'Pending'}
                   </span>
                 </div>
@@ -244,9 +241,9 @@ export default function Calendar() {
                   </div>
                   {interview.meetingLink && (
                     <div className="flex items-center gap-3">
-                      <a 
-                        href={interview.meetingLink} 
-                        target="_blank" 
+                      <a
+                        href={interview.meetingLink}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="text-sm text-purple-600 hover:text-purple-700 font-medium underline truncate"
                       >
