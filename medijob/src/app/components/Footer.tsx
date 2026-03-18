@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import mediverseLogo from "figma:asset/033be242c2b57d0c297161f9934e633207a10d29.png";
+import mediverseLogo from "../../assets/033be242c2b57d0c297161f9934e633207a10d29.png";
 
 export default function Footer() {
   return (
