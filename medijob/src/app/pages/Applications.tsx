@@ -21,7 +21,7 @@ interface Application {
 
 export default function Applications() {
   const { t } = useLanguage();
-
+  
   const [searchTerm, setSearchTerm] = useState("");
   const [isCancelledExpanded, setIsCancelledExpanded] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
@@ -121,7 +121,7 @@ export default function Applications() {
 
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
-
+              
               <NotificationDropdown />
 
               <Link to="/">
@@ -171,7 +171,7 @@ export default function Applications() {
           </h2>
           <p className="text-gray-600 text-sm mt-1">{t("applications.pendingSubtitle")}</p>
         </div>
-
+        
         <Card className="shadow-xl overflow-hidden mb-8">
           <div className="overflow-x-auto overflow-y-visible">
             <table className="w-full">
@@ -259,7 +259,7 @@ export default function Applications() {
                 )}
               </Button>
             </div>
-
+            
             {isCancelledExpanded && (
               <Card className="shadow-xl overflow-hidden mb-8">
                 <div className="overflow-x-auto overflow-y-visible">

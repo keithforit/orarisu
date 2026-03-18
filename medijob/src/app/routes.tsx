@@ -10,6 +10,8 @@ import AddCandidate from "./pages/AddCandidate";
 import Calendar from "./pages/Calendar";
 import Applications from "./pages/Applications";
 import JobMatch from "./pages/JobMatch";
+import ResumeBuilder from "./pages/ResumeBuilder";
+import SendResumeBuilder from "./pages/SendResumeBuilder";
 import { LanguageProvider } from "./contexts/LanguageContext";
 
 // v6 - Updated 2026-03-11T17:30:00 - Fixed LanguageProvider wrapping with element prop
@@ -64,6 +66,10 @@ export const router = createBrowserRouter([
         element: <JobMatch />,
       },
       {
+        path: "applicants/:id/send-resume-builder",
+        element: <SendResumeBuilder />,
+      },
+      {
         path: "applications",
         element: <Applications />,
       },
@@ -74,6 +80,10 @@ export const router = createBrowserRouter([
       {
         path: "calendar",
         element: <Calendar />,
+      },
+      {
+        path: "resume-builder",
+        element: <ResumeBuilder />,
       },
     ],
   },

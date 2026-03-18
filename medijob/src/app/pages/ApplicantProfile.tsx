@@ -29,7 +29,7 @@ interface ApplicantProfileData {
   phone: string;
   email: string;
   leadDate: string;
-
+  
   // Career Background
   university: string;
   currentJob: string;
@@ -42,7 +42,7 @@ interface ApplicantProfileData {
   reasonForLeavingPrevious: string;
   totalCompanies: number;
   totalWorkExperience: number;
-
+  
   // Recruiter Notes - Japanese format
   jobSearchStatus: string;  // ①転職活動の状況
   currentJobDetails: string;  // ②現職内容／勤続年数
@@ -56,7 +56,7 @@ interface ApplicantProfileData {
   salaryInfo: string;  // ⑩現年収／希望年収
   resumeFile: string | null;
   editedResume: string | null;
-
+  
   // For table display
   status: ApplicantStatus;
   nextAction: string;
@@ -65,7 +65,7 @@ interface ApplicantProfileData {
 // Helper function to get mock data based on ID
 function getMockDataForId(id: string | undefined): ApplicantProfileData {
   const numId = parseInt(id || "1");
-
+  
   // For "Screening" status candidates (ID 2 - Suzuki Mei), return minimal information
   if (numId === 2) {
     return {
@@ -79,7 +79,7 @@ function getMockDataForId(id: string | undefined): ApplicantProfileData {
       phone: "+81 90-2345-6789",
       email: "suzuki.mei@example.com",
       leadDate: "2026-03-10",
-
+      
       // Career Background - minimal for screening
       university: "",
       currentJob: "",
@@ -92,7 +92,7 @@ function getMockDataForId(id: string | undefined): ApplicantProfileData {
       reasonForLeavingPrevious: "",
       totalCompanies: 0,
       totalWorkExperience: 0,
-
+      
       // Recruiter Notes - minimal
       jobSearchStatus: "",
       currentJobDetails: "",
@@ -106,12 +106,12 @@ function getMockDataForId(id: string | undefined): ApplicantProfileData {
       salaryInfo: "",
       resumeFile: null,
       editedResume: null,
-
+      
       status: "Screening",
       nextAction: "Call again",
     };
   }
-
+  
   // For "First Call" status candidates (ID 3 - Sato Kenji), return minimal information
   if (numId === 3) {
     return {
@@ -125,7 +125,7 @@ function getMockDataForId(id: string | undefined): ApplicantProfileData {
       phone: "+81 90-9876-5432",
       email: "sato.kenji@example.com",
       leadDate: "2026-03-10",
-
+      
       // Career Background - minimal
       university: "",
       currentJob: "",
@@ -138,7 +138,7 @@ function getMockDataForId(id: string | undefined): ApplicantProfileData {
       reasonForLeavingPrevious: "",
       totalCompanies: 0,
       totalWorkExperience: 0,
-
+      
       // Recruiter Notes - minimal
       jobSearchStatus: "",
       currentJobDetails: "",
@@ -152,12 +152,12 @@ function getMockDataForId(id: string | undefined): ApplicantProfileData {
       salaryInfo: "",
       resumeFile: null,
       editedResume: null,
-
+      
       status: "First Call",
       nextAction: "Technical interview",
     };
   }
-
+  
   // Default full data for other candidates
   return {
     id: 1,
@@ -170,7 +170,7 @@ function getMockDataForId(id: string | undefined): ApplicantProfileData {
     phone: "+81 90-1234-5678",
     email: "tanaka.yuki@example.com",
     leadDate: "2026-03-01",
-
+    
     // Career Background
     university: "東京大学",
     currentJob: "Sales Representative",
@@ -183,7 +183,7 @@ function getMockDataForId(id: string | undefined): ApplicantProfileData {
     reasonForLeavingPrevious: "Company restructuring",
     totalCompanies: 2,
     totalWorkExperience: 5,
-
+    
     // Recruiter Notes
     jobSearchStatus: "Active",
     currentJobDetails: "Sales Representative at ABC Corporation for 3 years",
@@ -197,7 +197,7 @@ function getMockDataForId(id: string | undefined): ApplicantProfileData {
     salaryInfo: "4,500,000 yen / 5,500,000 yen",
     resumeFile: "tanaka_yuki_resume.pdf",
     editedResume: "tanaka_yuki_resume_edited.pdf",
-
+    
     status: "Interview Scheduled",
     nextAction: "Interview tomorrow",
   };
@@ -207,13 +207,13 @@ export default function ApplicantProfile() {
   const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
-
+  
   // Initialize with mock data based on ID
   const initialData = getMockDataForId(id);
 
   const [formData, setFormData] = useState<ApplicantProfileData>(initialData);
   const [hasChanges, setHasChanges] = useState(false);
-
+  
   // Collapsible sections state
   const [expandedSections, setExpandedSections] = useState({
     basic: true,
@@ -221,30 +221,30 @@ export default function ApplicantProfile() {
     recruiter: true,
     timeline: true,
   });
-
+  
   // AI Summary Modal state
   const [showSummaryModal, setShowSummaryModal] = useState(false);
   const [summaryText, setSummaryText] = useState("");
   const [editedSummary, setEditedSummary] = useState("");
-
+  
   // Timeline events - different based on ID
   const getInitialTimeline = (id: string | undefined): TimelineEvent[] => {
     const numId = parseInt(id || "1");
-
+    
     if (numId === 2) {
       // Minimal timeline for Screening candidate
       return [
         { id: "1", date: "2026-03-10", description: "Resume review completed" },
       ];
     }
-
+    
     if (numId === 3) {
       // Minimal timeline for First Call candidate
       return [
         { id: "1", date: "2026-03-10", description: "Lead received" },
       ];
     }
-
+    
     // Full timeline for other candidates
     return [
       { id: "1", date: "2026-03-01", description: "Lead received" },
@@ -254,7 +254,7 @@ export default function ApplicantProfile() {
       { id: "5", date: "2026-03-08", description: "Applied to Mediverse" },
     ];
   };
-
+  
   const [timeline, setTimeline] = useState<TimelineEvent[]>(getInitialTimeline(id));
   const [newEventDate, setNewEventDate] = useState("");
   const [newEventDescription, setNewEventDescription] = useState("");
@@ -274,7 +274,7 @@ export default function ApplicantProfile() {
     setHasChanges(false);
     alert(t("profile.changesSaved"));
   };
-
+  
   const handleSummarize = () => {
     // Generate AI summary from the recruiter notes
     const summary = `
@@ -289,40 +289,40 @@ export default function ApplicantProfile() {
 希望勤務地: ${formData.desiredLocation}
 現年収／希望年収: ${formData.salaryInfo}
     `.trim();
-
+    
     setSummaryText(summary);
     setEditedSummary(summary);
     setShowSummaryModal(true);
   };
-
+  
   const handleSaveSummary = () => {
     // In a real app, save the edited summary
     console.log("Saving summary:", editedSummary);
     alert(t("profile.summarySaved"));
     setShowSummaryModal(false);
   };
-
+  
   const handleProceedWithApplication = () => {
     // Move application from pending to applicants list by updating status
     const newStatus: ApplicantStatus = "First Call"; // Move from Screening to First Call
-
+    
     // Update localStorage with the new status
     const stored = localStorage.getItem("applicantStatusUpdates");
     const existing = stored ? JSON.parse(stored) : {};
     existing[formData.id] = newStatus;
     localStorage.setItem("applicantStatusUpdates", JSON.stringify(existing));
-
+    
     // Store the recent update for animation
     localStorage.setItem("recentStatusUpdate", JSON.stringify({
       id: formData.id,
       oldStatus: "Screening",
       newStatus: newStatus
     }));
-
+    
     alert(t("profile.proceedingWithApplication"));
     navigate("/applicants");
   };
-
+  
   const handleCancelApplication = () => {
     if (confirm(t("profile.cancelConfirm"))) {
       // Save to cancelled applications
@@ -335,15 +335,15 @@ export default function ApplicantProfile() {
         email: formData.email,
         phone: formData.phone,
       };
-
+      
       // Get existing cancelled applications
       const stored = localStorage.getItem("cancelledApplications");
       const existing = stored ? JSON.parse(stored) : [];
-
+      
       // Add new cancelled application
       const updated = [...existing, cancelledApp];
       localStorage.setItem("cancelledApplications", JSON.stringify(updated));
-
+      
       alert(t("profile.applicationCancelled"));
       navigate("/applications");
     }
@@ -402,7 +402,7 @@ export default function ApplicantProfile() {
 
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
-
+              
               <NotificationDropdown />
 
               <Link to="/">
@@ -429,9 +429,9 @@ export default function ApplicantProfile() {
               Back to Applicants
             </Button>
           </Link>
-
+          
           {hasChanges && (
-            <Button
+            <Button 
               onClick={handleSave}
               className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
             >
@@ -448,15 +448,30 @@ export default function ApplicantProfile() {
               <h1 className="text-4xl font-bold text-gray-900 mb-2">{formData.nameKanji}</h1>
               <p className="text-gray-600 text-lg">{formData.nameKana}</p>
             </div>
-
-            {/* Match Button - Only show for First Call status */}
-            {formData.status === "First Call" && (
-              <Link to={`/applicants/${id}/match`}>
-                <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all flex items-center gap-2">
-                  <Zap className="w-4 h-4" />
-                  {t("profile.match")}
-                </Button>
-              </Link>
+            
+            {/* Action Buttons - Show for Active Applicants (not Screening) */}
+            {formData.status !== "Screening" && (
+              <div className="flex items-center gap-3">
+                {/* Send Resume Builder Button */}
+                <Link to={`/applicants/${id}/send-resume-builder`}>
+                  <Button 
+                    className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
+                  >
+                    <FileText className="w-4 h-4" />
+                    {t("applicants.sendResumeBuilder")}
+                  </Button>
+                </Link>
+                
+                {/* Match Button - Only show for First Call status */}
+                {formData.status === "First Call" && (
+                  <Link to={`/applicants/${id}/match`}>
+                    <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all flex items-center gap-2">
+                      <Zap className="w-4 h-4" />
+                      {t("profile.match")}
+                    </Button>
+                  </Link>
+                )}
+              </div>
             )}
           </div>
         </div>
@@ -478,16 +493,16 @@ export default function ApplicantProfile() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Name (Kanji)</label>
-                <Input
-                  value={formData.nameKanji}
+                <Input 
+                  value={formData.nameKanji} 
                   onChange={(e) => handleInputChange("nameKanji", e.target.value)}
                   className="border-gray-300"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Name (Kana)</label>
-                <Input
-                  value={formData.nameKana}
+                <Input 
+                  value={formData.nameKana} 
                   onChange={(e) => handleInputChange("nameKana", e.target.value)}
                   className="border-gray-300"
                 />
@@ -506,44 +521,44 @@ export default function ApplicantProfile() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Date of Birth</label>
-                <Input
+                <Input 
                   type="date"
-                  value={formData.dateOfBirth}
+                  value={formData.dateOfBirth} 
                   onChange={(e) => handleInputChange("dateOfBirth", e.target.value)}
                   className="border-gray-300"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Age</label>
-                <Input
+                <Input 
                   type="number"
-                  value={formData.age}
+                  value={formData.age} 
                   onChange={(e) => handleInputChange("age", parseInt(e.target.value))}
                   className="border-gray-300"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
-                <Input
-                  value={formData.phone}
+                <Input 
+                  value={formData.phone} 
                   onChange={(e) => handleInputChange("phone", e.target.value)}
                   className="border-gray-300"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
-                <Input
+                <Input 
                   type="email"
-                  value={formData.email}
+                  value={formData.email} 
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   className="border-gray-300"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Lead Date (流入日)</label>
-                <Input
+                <Input 
                   type="date"
-                  value={formData.leadDate}
+                  value={formData.leadDate} 
                   onChange={(e) => handleInputChange("leadDate", e.target.value)}
                   className="border-gray-300"
                 />
@@ -569,41 +584,41 @@ export default function ApplicantProfile() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">University</label>
-                <Input
-                  value={formData.university}
+                <Input 
+                  value={formData.university} 
                   onChange={(e) => handleInputChange("university", e.target.value)}
                   className="border-gray-300"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Current Job</label>
-                <Input
-                  value={formData.currentJob}
+                <Input 
+                  value={formData.currentJob} 
                   onChange={(e) => handleInputChange("currentJob", e.target.value)}
                   className="border-gray-300"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Current Company</label>
-                <Input
-                  value={formData.currentCompany}
+                <Input 
+                  value={formData.currentCompany} 
                   onChange={(e) => handleInputChange("currentCompany", e.target.value)}
                   className="border-gray-300"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Years in Current Job</label>
-                <Input
+                <Input 
                   type="number"
-                  value={formData.yearsInCurrentJob}
+                  value={formData.yearsInCurrentJob} 
                   onChange={(e) => handleInputChange("yearsInCurrentJob", parseInt(e.target.value))}
                   className="border-gray-300"
                 />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Reason for Leaving</label>
-                <textarea
-                  value={formData.reasonForLeaving}
+                <textarea 
+                  value={formData.reasonForLeaving} 
                   onChange={(e) => handleInputChange("reasonForLeaving", e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 resize-none"
                   rows={2}
@@ -611,33 +626,33 @@ export default function ApplicantProfile() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Previous Job</label>
-                <Input
-                  value={formData.previousJob}
+                <Input 
+                  value={formData.previousJob} 
                   onChange={(e) => handleInputChange("previousJob", e.target.value)}
                   className="border-gray-300"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Previous Company</label>
-                <Input
-                  value={formData.previousCompany}
+                <Input 
+                  value={formData.previousCompany} 
                   onChange={(e) => handleInputChange("previousCompany", e.target.value)}
                   className="border-gray-300"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Years in Previous Job</label>
-                <Input
+                <Input 
                   type="number"
-                  value={formData.yearsInPreviousJob}
+                  value={formData.yearsInPreviousJob} 
                   onChange={(e) => handleInputChange("yearsInPreviousJob", parseInt(e.target.value))}
                   className="border-gray-300"
                 />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Reason for Leaving</label>
-                <textarea
-                  value={formData.reasonForLeavingPrevious}
+                <textarea 
+                  value={formData.reasonForLeavingPrevious} 
                   onChange={(e) => handleInputChange("reasonForLeavingPrevious", e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 resize-none"
                   rows={2}
@@ -645,18 +660,18 @@ export default function ApplicantProfile() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Total Number of Companies Worked</label>
-                <Input
+                <Input 
                   type="number"
-                  value={formData.totalCompanies}
+                  value={formData.totalCompanies} 
                   onChange={(e) => handleInputChange("totalCompanies", parseInt(e.target.value))}
                   className="border-gray-300"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Total Work Experience (years)</label>
-                <Input
+                <Input 
                   type="number"
-                  value={formData.totalWorkExperience}
+                  value={formData.totalWorkExperience} 
                   onChange={(e) => handleInputChange("totalWorkExperience", parseInt(e.target.value))}
                   className="border-gray-300"
                 />
@@ -682,8 +697,8 @@ export default function ApplicantProfile() {
             <div className="grid grid-cols-1 gap-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">{t("profile.note1")}</label>
-                <textarea
-                  value={formData.jobSearchStatus}
+                <textarea 
+                  value={formData.jobSearchStatus} 
                   onChange={(e) => handleInputChange("jobSearchStatus", e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 resize-none"
                   rows={3}
@@ -691,8 +706,8 @@ export default function ApplicantProfile() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">{t("profile.note2")}</label>
-                <textarea
-                  value={formData.currentJobDetails}
+                <textarea 
+                  value={formData.currentJobDetails} 
                   onChange={(e) => handleInputChange("currentJobDetails", e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 resize-none"
                   rows={3}
@@ -700,8 +715,8 @@ export default function ApplicantProfile() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">{t("profile.note3")}</label>
-                <textarea
-                  value={formData.currentJobReason}
+                <textarea 
+                  value={formData.currentJobReason} 
                   onChange={(e) => handleInputChange("currentJobReason", e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 resize-none"
                   rows={3}
@@ -709,8 +724,8 @@ export default function ApplicantProfile() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">{t("profile.note4")}</label>
-                <textarea
-                  value={formData.previousJobDetails}
+                <textarea 
+                  value={formData.previousJobDetails} 
                   onChange={(e) => handleInputChange("previousJobDetails", e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 resize-none"
                   rows={3}
@@ -718,8 +733,8 @@ export default function ApplicantProfile() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">{t("profile.note5")}</label>
-                <textarea
-                  value={formData.previousJobReason}
+                <textarea 
+                  value={formData.previousJobReason} 
                   onChange={(e) => handleInputChange("previousJobReason", e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 resize-none"
                   rows={3}
@@ -727,8 +742,8 @@ export default function ApplicantProfile() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">{t("profile.note6")}</label>
-                <textarea
-                  value={formData.totalCompaniesWorked}
+                <textarea 
+                  value={formData.totalCompaniesWorked} 
                   onChange={(e) => handleInputChange("totalCompaniesWorked", e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 resize-none"
                   rows={2}
@@ -736,8 +751,8 @@ export default function ApplicantProfile() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">{t("profile.note7")}</label>
-                <textarea
-                  value={formData.desiredJoinDate}
+                <textarea 
+                  value={formData.desiredJoinDate} 
                   onChange={(e) => handleInputChange("desiredJoinDate", e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 resize-none"
                   rows={2}
@@ -745,8 +760,8 @@ export default function ApplicantProfile() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">{t("profile.note8")}</label>
-                <textarea
-                  value={formData.desiredJobType}
+                <textarea 
+                  value={formData.desiredJobType} 
                   onChange={(e) => handleInputChange("desiredJobType", e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 resize-none"
                   rows={2}
@@ -754,8 +769,8 @@ export default function ApplicantProfile() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">{t("profile.note9")}</label>
-                <textarea
-                  value={formData.desiredLocation}
+                <textarea 
+                  value={formData.desiredLocation} 
                   onChange={(e) => handleInputChange("desiredLocation", e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 resize-none"
                   rows={2}
@@ -763,14 +778,14 @@ export default function ApplicantProfile() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">{t("profile.note10")}</label>
-                <textarea
-                  value={formData.salaryInfo}
+                <textarea 
+                  value={formData.salaryInfo} 
                   onChange={(e) => handleInputChange("salaryInfo", e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 resize-none"
                   rows={2}
                 />
               </div>
-
+              
               {/* Summarize with AI Button */}
               <div className="flex justify-start pt-2">
                 <Button
@@ -781,7 +796,7 @@ export default function ApplicantProfile() {
                   {t("profile.summarizeWithAI")}
                 </Button>
               </div>
-
+              
               {/* Proceed/Cancel Buttons */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-200 mt-4">
                 <Button
@@ -821,15 +836,15 @@ export default function ApplicantProfile() {
               <div className="mb-6 p-4 bg-indigo-50 rounded-lg border border-indigo-200">
                 <label className="block text-sm font-semibold text-gray-700 mb-3">Add New Event</label>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Input
+                  <Input 
                     type="date"
-                    value={newEventDate}
+                    value={newEventDate} 
                     onChange={(e) => setNewEventDate(e.target.value)}
                     className="border-gray-300"
                     placeholder="Date"
                   />
-                  <Input
-                    value={newEventDescription}
+                  <Input 
+                    value={newEventDescription} 
                     onChange={(e) => setNewEventDescription(e.target.value)}
                     className="border-gray-300 flex-1"
                     placeholder="Event description"
@@ -856,7 +871,7 @@ export default function ApplicantProfile() {
                           <div className="text-lg font-bold text-gray-900">{month} {day}</div>
                         </div>
                       </div>
-
+                      
                       {/* Timeline Line */}
                       <div className="flex flex-col items-center">
                         <div className={`w-3 h-3 rounded-full ${index === 0 ? 'bg-indigo-600' : 'bg-gray-400'} border-2 border-white shadow-sm`}></div>
@@ -864,7 +879,7 @@ export default function ApplicantProfile() {
                           <div className="w-0.5 flex-1 bg-gray-300 min-h-[30px]"></div>
                         )}
                       </div>
-
+                      
                       {/* Event Description */}
                       <div className="flex-1 pb-6">
                         <div className="flex items-start justify-between gap-4">
@@ -889,7 +904,7 @@ export default function ApplicantProfile() {
         {/* Save Button at Bottom */}
         {hasChanges && (
           <div className="flex justify-end">
-            <Button
+            <Button 
               onClick={handleSave}
               className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
             >

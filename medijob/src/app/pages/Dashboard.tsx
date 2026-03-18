@@ -4,11 +4,13 @@ import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import mediverseLogo from "../../assets/033be242c2b57d0c297161f9934e633207a10d29.png";
 import { useLanguage } from "../contexts/LanguageContext";
+import { useAuth } from "../contexts/AuthContext";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import NotificationDropdown from "../components/NotificationDropdown";
 
 export default function Dashboard() {
   const { t } = useLanguage();
+  const { user } = useAuth();
 
   const todayNotifications = [
     {
@@ -68,15 +70,15 @@ export default function Dashboard() {
               <img src={mediverseLogo} alt="Mediverse" className="h-8 w-auto" />
               <span className="text-xl font-semibold text-gray-800">{t("dashboard.title")}</span>
             </div>
-
+            
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
-
+              
               <NotificationDropdown />
-
+              
               <Link to="/">
-                <Button
-                  variant="outline"
+                <Button 
+                  variant="outline" 
                   className="flex items-center gap-2 border-gray-300 text-gray-700 hover:bg-gray-50"
                 >
                   <LogOut className="w-4 h-4" />
@@ -93,7 +95,7 @@ export default function Dashboard() {
         {/* Welcome Section */}
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            {t("dashboard.welcome")}
+            {t("dashboard.welcomeBack")}{user?.name || "User"}
           </h1>
           <p className="text-gray-600 text-lg">
             {t("dashboard.subtitle")}
@@ -105,7 +107,7 @@ export default function Dashboard() {
           <Link to="/applicants">
             <div className="bg-white p-6 relative rounded-2xl cursor-pointer hover:shadow-lg transition-all group">
               <div aria-hidden="true" className="absolute border border-[#f1f1f3] border-solid inset-0 pointer-events-none rounded-2xl shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]" />
-
+              
               <div className="relative">
                 <div className="flex items-center justify-between mb-6">
                   <div>
@@ -119,7 +121,7 @@ export default function Dashboard() {
                   </div>
                   <Users className="w-12 h-12 text-blue-500 group-hover:scale-110 transition-transform" />
                 </div>
-
+                
                 {/* Progress Bar */}
                 <div className="bg-[#f8fafc] h-1 rounded-full overflow-hidden">
                   <div className="bg-blue-500 h-full w-[75%] rounded-full" />
@@ -129,11 +131,11 @@ export default function Dashboard() {
           </Link>
 
           <Link to="/calendar">
-            <div
+            <div 
               className="bg-white p-6 relative rounded-2xl cursor-pointer hover:shadow-lg transition-all group"
             >
               <div aria-hidden="true" className="absolute border border-[#f1f1f3] border-solid inset-0 pointer-events-none rounded-2xl shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]" />
-
+              
               <div className="relative">
                 <div className="flex items-center justify-between mb-6">
                   <div>
@@ -147,7 +149,7 @@ export default function Dashboard() {
                   </div>
                   <Calendar className="w-12 h-12 text-purple-500 group-hover:scale-110 transition-transform" />
                 </div>
-
+                
                 {/* Progress Bar */}
                 <div className="bg-[#f8fafc] h-1 rounded-full overflow-hidden">
                   <div className="bg-purple-500 h-full w-[40%] rounded-full" />
@@ -158,7 +160,7 @@ export default function Dashboard() {
 
           <div className="bg-white p-6 relative rounded-2xl hover:shadow-lg transition-all group">
             <div aria-hidden="true" className="absolute border border-[#f1f1f3] border-solid inset-0 pointer-events-none rounded-2xl shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]" />
-
+            
             <div className="relative">
               <div className="flex items-center justify-between mb-6">
                 <div>
@@ -172,7 +174,7 @@ export default function Dashboard() {
                 </div>
                 <AlertCircle className="w-12 h-12 text-green-500 group-hover:scale-110 transition-transform" />
               </div>
-
+              
               {/* Progress Bar */}
               <div className="bg-[#f8fafc] h-1 rounded-full overflow-hidden">
                 <div className="bg-green-500 h-full w-[60%] rounded-full" />
@@ -210,17 +212,17 @@ export default function Dashboard() {
               <div className="w-1 h-8 bg-indigo-600 rounded-full"></div>
               <h2 className="text-2xl font-bold text-gray-900">{t("dashboard.today")}</h2>
             </div>
-
+            
             <div className="space-y-3">
               {todayNotifications.map((notification, index) => {
                 const Icon = notification.icon;
                 return (
-                  <div
+                  <div 
                     key={notification.id}
                     className="bg-white p-5 relative rounded-xl cursor-pointer hover:shadow-md transition-all group"
                   >
                     <div aria-hidden="true" className="absolute border border-[#f1f1f3] border-solid inset-0 pointer-events-none rounded-xl shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]" />
-
+                    
                     <div className="relative flex gap-4">
                       <div className={`p-2.5 rounded-lg ${notification.color} h-fit shrink-0`}>
                         <Icon className={`w-5 h-5 ${notification.iconColor}`} />
@@ -249,17 +251,17 @@ export default function Dashboard() {
               <div className="w-1 h-8 bg-orange-600 rounded-full"></div>
               <h2 className="text-2xl font-bold text-gray-900">{t("dashboard.followUps")}</h2>
             </div>
-
+            
             <div className="space-y-3">
               {followUps.map((followUp, index) => {
                 const Icon = followUp.icon;
                 return (
-                  <div
+                  <div 
                     key={followUp.id}
                     className="bg-white p-5 relative rounded-xl cursor-pointer hover:shadow-md transition-all group"
                   >
                     <div aria-hidden="true" className="absolute border border-[#f1f1f3] border-solid inset-0 pointer-events-none rounded-xl shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]" />
-
+                    
                     <div className="relative flex gap-4">
                       <div className={`p-2.5 rounded-lg ${followUp.color} h-fit shrink-0`}>
                         <Icon className={`w-5 h-5 ${followUp.iconColor}`} />

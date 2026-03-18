@@ -87,7 +87,7 @@ export default function AddCandidate() {
 
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
-
+              
               <NotificationDropdown />
 
               <Link to="/">
@@ -127,14 +127,16 @@ export default function AddCandidate() {
           {/* Manual Entry */}
           <Card
             onClick={() => setSelectedMethod("manual")}
-            className={`p-6 cursor-pointer transition-all hover:shadow-xl ${selectedMethod === "manual"
+            className={`p-6 cursor-pointer transition-all hover:shadow-xl ${
+              selectedMethod === "manual"
                 ? "ring-2 ring-indigo-600 shadow-lg bg-indigo-50/50"
                 : "hover:bg-gray-50"
-              }`}
+            }`}
           >
             <div className="flex flex-col items-center text-center">
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${selectedMethod === "manual" ? "bg-indigo-600" : "bg-gray-200"
-                }`}>
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${
+                selectedMethod === "manual" ? "bg-indigo-600" : "bg-gray-200"
+              }`}>
                 <FileText className={`w-8 h-8 ${selectedMethod === "manual" ? "text-white" : "text-gray-600"}`} />
               </div>
               <h3 className="font-bold text-lg text-gray-900 mb-2">{t("addCandidate.manualEntry")}</h3>
@@ -145,14 +147,16 @@ export default function AddCandidate() {
           {/* Paste Text */}
           <Card
             onClick={() => setSelectedMethod("paste")}
-            className={`p-6 cursor-pointer transition-all hover:shadow-xl ${selectedMethod === "paste"
+            className={`p-6 cursor-pointer transition-all hover:shadow-xl ${
+              selectedMethod === "paste"
                 ? "ring-2 ring-indigo-600 shadow-lg bg-indigo-50/50"
                 : "hover:bg-gray-50"
-              }`}
+            }`}
           >
             <div className="flex flex-col items-center text-center">
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${selectedMethod === "paste" ? "bg-indigo-600" : "bg-gray-200"
-                }`}>
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${
+                selectedMethod === "paste" ? "bg-indigo-600" : "bg-gray-200"
+              }`}>
                 <ClipboardPaste className={`w-8 h-8 ${selectedMethod === "paste" ? "text-white" : "text-gray-600"}`} />
               </div>
               <h3 className="font-bold text-lg text-gray-900 mb-2">{t("addCandidate.pasteText")}</h3>
@@ -163,14 +167,16 @@ export default function AddCandidate() {
           {/* Upload Screenshot */}
           <Card
             onClick={() => setSelectedMethod("screenshot")}
-            className={`p-6 cursor-pointer transition-all hover:shadow-xl ${selectedMethod === "screenshot"
+            className={`p-6 cursor-pointer transition-all hover:shadow-xl ${
+              selectedMethod === "screenshot"
                 ? "ring-2 ring-indigo-600 shadow-lg bg-indigo-50/50"
                 : "hover:bg-gray-50"
-              }`}
+            }`}
           >
             <div className="flex flex-col items-center text-center">
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${selectedMethod === "screenshot" ? "bg-indigo-600" : "bg-gray-200"
-                }`}>
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${
+                selectedMethod === "screenshot" ? "bg-indigo-600" : "bg-gray-200"
+              }`}>
                 <Image className={`w-8 h-8 ${selectedMethod === "screenshot" ? "text-white" : "text-gray-600"}`} />
               </div>
               <h3 className="font-bold text-lg text-gray-900 mb-2">{t("addCandidate.uploadScreenshot")}</h3>
@@ -330,7 +336,7 @@ export default function AddCandidate() {
                 <p className="text-sm text-gray-600 mb-4">
                   {t("addCandidate.uploadDescription")}
                 </p>
-
+                
                 {!screenshot ? (
                   <label className="flex flex-col items-center justify-center w-full h-96 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-indigo-500 hover:bg-indigo-50 transition-all">
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -370,14 +376,14 @@ export default function AddCandidate() {
                   </div>
                 )}
               </div>
-
+              
               <div className="flex items-center gap-3 p-4 bg-indigo-50 rounded-lg border border-indigo-200">
                 <Sparkles className="w-5 h-5 text-indigo-600" />
                 <p className="text-sm text-indigo-900">
                   <strong>{t("addCandidate.aiVision")}</strong> {t("addCandidate.aiVisionDescription")}
                 </p>
               </div>
-
+              
               <div className="mt-8 flex justify-end">
                 <Button
                   onClick={handleScreenshotSubmit}

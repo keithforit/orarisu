@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import mediverseLogo from "../../assets/033be242c2b57d0c297161f9934e633207a10d29.png";
+import mediverseLogo from "figma:asset/033be242c2b57d0c297161f9934e633207a10d29.png";
 
 export default function Footer() {
   return (
@@ -9,7 +9,7 @@ export default function Footer() {
           <Link to="/" className="flex items-center gap-2">
             <img src={mediverseLogo} alt="Mediverse" className="h-8 w-auto" />
           </Link>
-
+          
           <nav className="flex flex-wrap items-center justify-center gap-6">
             <Link to="/terms" className="text-gray-700 hover:text-gray-900 transition-colors">
               Terms of Service
@@ -24,7 +24,7 @@ export default function Footer() {
               Contact Us
             </Link>
           </nav>
-
+          
           <p className="text-sm text-gray-600">
             © Mediverse powered by Professional Recruiting Inc.
           </p>

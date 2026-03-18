@@ -32,7 +32,7 @@ interface Applicant {
 
 export default function Applicants() {
   const { t } = useLanguage();
-
+  
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<ApplicantStatus | "All">("All");
   const [sortField, setSortField] = useState<SortField | null>(null);
@@ -44,6 +44,12 @@ export default function Applicants() {
   const [importFile, setImportFile] = useState<File | null>(null);
   const [animatingOut, setAnimatingOut] = useState<number | null>(null);
   const [animatingIn, setAnimatingIn] = useState<number | null>(null);
+  const [applicantJobs, setApplicantJobs] = useState<Record<number, string>>({});
+  const [applicantActions, setApplicantActions] = useState<Record<number, string>>({});
+  const [editingJobId, setEditingJobId] = useState<number | null>(null);
+  const [tempJobValue, setTempJobValue] = useState<string>("");
+  const [editingActionId, setEditingActionId] = useState<number | null>(null);
+  const [tempActionValue, setTempActionValue] = useState<string>("");
 
   // Load status updates from localStorage on mount and when navigating back
   useEffect(() => {
@@ -51,21 +57,21 @@ export default function Applicants() {
     if (stored) {
       const updates = JSON.parse(stored);
       setApplicantStatuses(updates);
-
+      
       // Check if there's a recently updated applicant
       const recentUpdate = localStorage.getItem("recentStatusUpdate");
       if (recentUpdate) {
         const { id, oldStatus, newStatus } = JSON.parse(recentUpdate);
-
+        
         // If moved from Screening to another status, animate
         if (oldStatus === "Screening" && newStatus !== "Screening") {
           setAnimatingOut(id);
-
+          
           // After fade out, trigger fade in
           setTimeout(() => {
             setAnimatingOut(null);
             setAnimatingIn(id);
-
+            
             // Clear animating in after animation completes
             setTimeout(() => {
               setAnimatingIn(null);
@@ -197,13 +203,13 @@ export default function Applicants() {
       ...prev,
       [applicantId]: newStatus
     }));
-
+    
     // Store status updates in localStorage
     localStorage.setItem("applicantStatusUpdates", JSON.stringify({
       ...applicantStatuses,
       [applicantId]: newStatus
     }));
-
+    
     // Store recent status update for animation
     const applicant = applicants.find(a => a.id === applicantId);
     if (applicant) {
@@ -217,6 +223,86 @@ export default function Applicants() {
 
   const getApplicantStatus = (applicant: Applicant) => {
     return applicantStatuses[applicant.id] || applicant.status;
+  };
+
+  const getApplicantJob = (applicant: Applicant) => {
+    return applicantJobs[applicant.id] || applicant.desiredJob;
+  };
+
+  const getApplicantAction = (applicant: Applicant) => {
+    return applicantActions[applicant.id] || applicant.nextAction;
+  };
+
+  const handleJobChange = (applicantId: number, newJob: string) => {
+    setApplicantJobs(prev => ({
+      ...prev,
+      [applicantId]: newJob
+    }));
+  };
+
+  const handleActionChange = (applicantId: number, newAction: string) => {
+    setApplicantActions(prev => ({
+      ...prev,
+      [applicantId]: newAction
+    }));
+  };
+
+  const handleJobClick = (applicantId: number, currentJob: string) => {
+    setEditingJobId(applicantId);
+    setTempJobValue(currentJob);
+  };
+
+  const handleJobInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTempJobValue(e.target.value);
+  };
+
+  const handleJobInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, applicantId: number) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleJobChange(applicantId, tempJobValue);
+      setEditingJobId(null);
+      setTempJobValue("");
+    } else if (e.key === 'Escape') {
+      setEditingJobId(null);
+      setTempJobValue("");
+    }
+  };
+
+  const handleJobInputBlur = (applicantId: number) => {
+    if (tempJobValue.trim()) {
+      handleJobChange(applicantId, tempJobValue);
+    }
+    setEditingJobId(null);
+    setTempJobValue("");
+  };
+
+  const handleActionClick = (applicantId: number, currentAction: string) => {
+    setEditingActionId(applicantId);
+    setTempActionValue(currentAction);
+  };
+
+  const handleActionInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTempActionValue(e.target.value);
+  };
+
+  const handleActionInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, applicantId: number) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleActionChange(applicantId, tempActionValue);
+      setEditingActionId(null);
+      setTempActionValue("");
+    } else if (e.key === 'Escape') {
+      setEditingActionId(null);
+      setTempActionValue("");
+    }
+  };
+
+  const handleActionInputBlur = (applicantId: number) => {
+    if (tempActionValue.trim()) {
+      handleActionChange(applicantId, tempActionValue);
+    }
+    setEditingActionId(null);
+    setTempActionValue("");
   };
 
   const handleDeleteClick = (id: number) => {
@@ -286,7 +372,7 @@ export default function Applicants() {
 
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
-
+              
               <NotificationDropdown />
 
               <Link to="/">
@@ -311,14 +397,14 @@ export default function Applicants() {
             <h1 className="text-4xl font-bold text-gray-900 mb-2">{t("applicants.title")}</h1>
             <p className="text-gray-600 text-lg">{t("applicants.subtitle")}</p>
           </div>
-
+          
           {/* Action Buttons */}
           <div className="flex gap-3">
             {/* Export/Import Button with Dropdown */}
             <div className="relative">
               <div className="flex">
                 {buttonMode === "export" ? (
-                  <Button
+                  <Button 
                     onClick={handleExport}
                     className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all rounded-r-none"
                   >
@@ -335,7 +421,7 @@ export default function Applicants() {
                       className="hidden"
                     />
                     <label htmlFor="import-file">
-                      <Button
+                      <Button 
                         as="span"
                         className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all rounded-r-none cursor-pointer"
                       >
@@ -347,15 +433,16 @@ export default function Applicants() {
                 )}
                 <Button
                   onClick={() => setShowDropdown(!showDropdown)}
-                  className={`${buttonMode === "export"
+                  className={`${
+                    buttonMode === "export"
                       ? "bg-gradient-to-r from-green-700 to-green-800 hover:from-green-800 hover:to-green-900"
                       : "bg-gradient-to-r from-blue-700 to-blue-800 hover:from-blue-800 hover:to-blue-900"
-                    } text-white shadow-lg hover:shadow-xl transition-all rounded-l-none border-l border-white/20 px-2`}
+                  } text-white shadow-lg hover:shadow-xl transition-all rounded-l-none border-l border-white/20 px-2`}
                 >
                   <ChevronDown className="w-4 h-4" />
                 </Button>
               </div>
-
+              
               {/* Dropdown Menu */}
               {showDropdown && (
                 <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-10">
@@ -376,7 +463,7 @@ export default function Applicants() {
                 </div>
               )}
             </div>
-
+            
             <Link to="/add-candidate">
               <Button className="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white shadow-lg hover:shadow-xl transition-all">
                 <Plus className="w-4 h-4 mr-2" />
@@ -439,8 +526,8 @@ export default function Applicants() {
               </h2>
               <p className="text-gray-600 text-sm mt-1">{t("applicants.newApplicantsSubtitle")}</p>
             </div>
-
-            <Card className="shadow-xl overflow-hidden mb-8">
+            
+            <Card className="shadow-xl overflow-hidden">
               <div className="overflow-x-auto overflow-y-visible">
                 <table className="w-full">
                   <thead className="bg-gradient-to-r from-purple-600 to-purple-700 text-white">
@@ -462,6 +549,11 @@ export default function Applicants() {
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-semibold">
                         <div className="flex items-center gap-1">
+                          {t("applicants.status")}
+                        </div>
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold">
+                        <div className="flex items-center gap-1">
                           {t("applicants.priority")}
                         </div>
                       </th>
@@ -479,12 +571,13 @@ export default function Applicants() {
                       const isAnimatingOut = animatingOut === applicant.id;
                       // Don't show if it's being moved to active (status changed from Screening)
                       if (currentStatus !== "Screening") return null;
-
+                      
                       return (
-                        <tr
-                          key={applicant.id}
-                          className={`hover:bg-purple-50/50 transition-all duration-400 group ${isAnimatingOut ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
-                            }`}
+                        <tr 
+                          key={applicant.id} 
+                          className={`hover:bg-purple-50/50 transition-all duration-400 group ${
+                            isAnimatingOut ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+                          }`}
                         >
                           <td className="px-6 py-3 whitespace-nowrap relative">
                             {applicant.lastActivity && (
@@ -508,7 +601,39 @@ export default function Applicants() {
                             </Link>
                           </td>
                           <td className="px-6 py-3 whitespace-nowrap text-xs text-gray-600">{applicant.age}</td>
-                          <td className="px-6 py-3 whitespace-nowrap text-xs text-gray-600">{t(getJobKey(applicant.desiredJob))}</td>
+                          <td className="px-6 py-3 whitespace-nowrap">
+                            {editingJobId === applicant.id ? (
+                              <input
+                                type="text"
+                                value={tempJobValue}
+                                onChange={handleJobInputChange}
+                                onKeyDown={(e) => handleJobInputKeyDown(e, applicant.id)}
+                                onBlur={() => handleJobInputBlur(applicant.id)}
+                                autoFocus
+                                className="text-xs text-gray-900 bg-white border border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded px-2 py-1 w-full min-w-[120px]"
+                              />
+                            ) : (
+                              <div
+                                onClick={() => handleJobClick(applicant.id, getApplicantJob(applicant))}
+                                className="text-xs text-gray-900 cursor-pointer hover:bg-indigo-50 rounded px-2 py-1 transition-colors"
+                              >
+                                {getApplicantJob(applicant)}
+                              </div>
+                            )}
+                          </td>
+                          <td className="px-6 py-3 whitespace-nowrap">
+                            <select
+                              value={getApplicantStatus(applicant)}
+                              onChange={(e) => handleStatusChange(applicant.id, e.target.value as ApplicantStatus)}
+                              className="text-xs text-gray-900 bg-transparent border-0 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded px-1 py-0.5 cursor-pointer hover:bg-indigo-50"
+                            >
+                              <option value="Interview Scheduled">{t("applicants.statusInterviewScheduled")}</option>
+                              <option value="Screening">{t("applicants.statusScreening")}</option>
+                              <option value="First Call">{t("applicants.statusFirstCall")}</option>
+                              <option value="Offered">{t("applicants.statusOffered")}</option>
+                              <option value="Rejected">{t("applicants.statusRejected")}</option>
+                            </select>
+                          </td>
                           <td className="px-6 py-3 whitespace-nowrap">
                             <span
                               className={`px-2 py-0.5 rounded-full text-xs font-semibold border ${getPriorityBadgeColor(
@@ -518,7 +643,26 @@ export default function Applicants() {
                               {t(`applicants.priority${applicant.priority}`)}
                             </span>
                           </td>
-                          <td className="px-6 py-3 whitespace-nowrap text-xs text-gray-600">{t(getActionKey(applicant.nextAction))}</td>
+                          <td className="px-6 py-3 whitespace-nowrap">
+                            {editingActionId === applicant.id ? (
+                              <input
+                                type="text"
+                                value={tempActionValue}
+                                onChange={handleActionInputChange}
+                                onKeyDown={(e) => handleActionInputKeyDown(e, applicant.id)}
+                                onBlur={() => handleActionInputBlur(applicant.id)}
+                                autoFocus
+                                className="text-xs text-gray-900 bg-white border border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded px-2 py-1 w-full min-w-[120px]"
+                              />
+                            ) : (
+                              <div
+                                onClick={() => handleActionClick(applicant.id, getApplicantAction(applicant))}
+                                className="text-xs text-gray-900 cursor-pointer hover:bg-indigo-50 rounded px-2 py-1 transition-colors"
+                              >
+                                {getApplicantAction(applicant)}
+                              </div>
+                            )}
+                          </td>
                           <td className="px-6 py-3 whitespace-nowrap">
                             <div className="flex items-center gap-2">
                               <Link to={`/applicants/${applicant.id}`}>
@@ -554,49 +698,49 @@ export default function Applicants() {
         {/* Active Applicants Table - First Call and beyond */}
         {activeApplicants.length > 0 && (
           <>
-            <div className="mb-4">
+            <div className="mb-4 mt-12">
               <h2 className="text-2xl font-bold text-gray-900">
                 {t("applicants.activeApplicants")} ({activeApplicants.length})
               </h2>
               <p className="text-gray-600 text-sm mt-1">{t("applicants.activeApplicantsSubtitle")}</p>
             </div>
-
-            <Card className="shadow-xl overflow-hidden">
+            
+            <Card className="shadow-xl overflow-hidden rounded-lg">
               <div className="overflow-x-auto overflow-y-visible">
                 <table className="w-full">
-                  <thead className="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white">
+                  <thead className="bg-gradient-to-r from-purple-600 to-purple-700 text-white">
                     <tr>
-                      <th className="px-6 py-4 text-left text-xs font-semibold cursor-pointer hover:bg-indigo-800 transition-colors" onClick={() => handleSort("name")}>
+                      <th className="px-6 py-4 text-left text-xs font-semibold cursor-pointer hover:bg-purple-800 transition-colors" onClick={() => handleSort("name")}>
                         <div className="flex items-center gap-1">
                           {t("applicants.name")}
                           <ArrowUpDown className="w-3 h-3" />
                         </div>
                       </th>
-                      <th className="px-6 py-4 text-left text-xs font-semibold cursor-pointer hover:bg-indigo-800 transition-colors" onClick={() => handleSort("age")}>
+                      <th className="px-6 py-4 text-left text-xs font-semibold cursor-pointer hover:bg-purple-800 transition-colors" onClick={() => handleSort("age")}>
                         <div className="flex items-center gap-1">
                           {t("applicants.age")}
                           <ArrowUpDown className="w-3 h-3" />
                         </div>
                       </th>
-                      <th className="px-6 py-4 text-left text-xs font-semibold cursor-pointer hover:bg-indigo-800 transition-colors" onClick={() => handleSort("desiredJob")}>
+                      <th className="px-6 py-4 text-left text-xs font-semibold cursor-pointer hover:bg-purple-800 transition-colors" onClick={() => handleSort("desiredJob")}>
                         <div className="flex items-center gap-1">
                           {t("applicants.desiredJob")}
                           <ArrowUpDown className="w-3 h-3" />
                         </div>
                       </th>
-                      <th className="px-6 py-4 text-left text-xs font-semibold cursor-pointer hover:bg-indigo-800 transition-colors" onClick={() => handleSort("status")}>
+                      <th className="px-6 py-4 text-left text-xs font-semibold cursor-pointer hover:bg-purple-800 transition-colors" onClick={() => handleSort("status")}>
                         <div className="flex items-center gap-1">
                           {t("applicants.status")}
                           <ArrowUpDown className="w-3 h-3" />
                         </div>
                       </th>
-                      <th className="px-6 py-4 text-left text-xs font-semibold cursor-pointer hover:bg-indigo-800 transition-colors" onClick={() => handleSort("priority")}>
+                      <th className="px-6 py-4 text-left text-xs font-semibold cursor-pointer hover:bg-purple-800 transition-colors" onClick={() => handleSort("priority")}>
                         <div className="flex items-center gap-1">
                           {t("applicants.priority")}
                           <ArrowUpDown className="w-3 h-3" />
                         </div>
                       </th>
-                      <th className="px-6 py-4 text-left text-xs font-semibold cursor-pointer hover:bg-indigo-800 transition-colors" onClick={() => handleSort("nextAction")}>
+                      <th className="px-6 py-4 text-left text-xs font-semibold cursor-pointer hover:bg-purple-800 transition-colors" onClick={() => handleSort("nextAction")}>
                         <div className="flex items-center gap-1">
                           {t("applicants.nextAction")}
                           <ArrowUpDown className="w-3 h-3" />
@@ -611,49 +755,66 @@ export default function Applicants() {
                       const isAnimatingIn = animatingIn === applicant.id;
                       // Only show if it has an active status (not Screening)
                       if (currentStatus === "Screening") return null;
-
+                      
                       return (
-                        <tr
-                          key={applicant.id}
+                        <tr 
+                          key={applicant.id} 
                           className={`hover:bg-indigo-50/50 transition-all duration-600 group ${isAnimatingIn ? 'animate-fadeInSlide' : ''}`}
                         >
                           <td className="px-6 py-3 whitespace-nowrap relative">
                             {/* Timeline Preview Tooltip */}
                             {applicant.lastActivity && (
                               <div className="absolute left-0 top-full mt-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                                <div className="bg-white/95 backdrop-blur-md border border-indigo-200 rounded-lg shadow-xl px-4 py-3 min-w-[280px] ml-6">
+                                <div className="bg-white/95 backdrop-blur-md border border-purple-200 rounded-lg shadow-xl px-4 py-3 min-w-[280px] ml-6">
                                   <div className="flex items-start gap-2">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 flex-shrink-0"></div>
+                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 flex-shrink-0"></div>
                                     <div>
                                       <p className="text-xs font-semibold text-gray-900 mb-0.5">Last activity:</p>
                                       <p className="text-xs text-gray-700">{applicant.lastActivity.description}</p>
-                                      <p className="text-xs text-indigo-600 font-medium mt-1">{formatDate(applicant.lastActivity.date)}</p>
+                                      <p className="text-xs text-purple-600 font-medium mt-1">{formatDate(applicant.lastActivity.date)}</p>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             )}
                             <Link to={`/applicants/${applicant.id}`}>
-                              <div className="text-xs font-medium text-indigo-600 hover:text-indigo-800 hover:underline cursor-pointer">
+                              <div className="text-xs font-medium text-purple-600 hover:text-purple-800 hover:underline cursor-pointer">
                                 {applicant.name}
                               </div>
                             </Link>
                           </td>
                           <td className="px-6 py-3 whitespace-nowrap text-xs text-gray-600">{applicant.age}</td>
-                          <td className="px-6 py-3 whitespace-nowrap text-xs text-gray-600">{t(getJobKey(applicant.desiredJob))}</td>
+                          <td className="px-6 py-3 whitespace-nowrap">
+                            {editingJobId === applicant.id ? (
+                              <input
+                                type="text"
+                                value={tempJobValue}
+                                onChange={handleJobInputChange}
+                                onKeyDown={(e) => handleJobInputKeyDown(e, applicant.id)}
+                                onBlur={() => handleJobInputBlur(applicant.id)}
+                                autoFocus
+                                className="text-xs text-gray-900 bg-white border border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded px-2 py-1 w-full min-w-[120px]"
+                              />
+                            ) : (
+                              <div
+                                onClick={() => handleJobClick(applicant.id, getApplicantJob(applicant))}
+                                className="text-xs text-gray-900 cursor-pointer hover:bg-indigo-50 rounded px-2 py-1 transition-colors"
+                              >
+                                {getApplicantJob(applicant)}
+                              </div>
+                            )}
+                          </td>
                           <td className="px-6 py-3 whitespace-nowrap">
                             <select
                               value={getApplicantStatus(applicant)}
                               onChange={(e) => handleStatusChange(applicant.id, e.target.value as ApplicantStatus)}
-                              className={`px-2 py-0.5 rounded-full text-xs font-semibold border cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500 ${getStatusBadgeColor(
-                                getApplicantStatus(applicant)
-                              )}`}
+                              className="text-xs text-gray-900 bg-transparent border-0 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded px-1 py-0.5 cursor-pointer hover:bg-indigo-50"
                             >
-                              <option value="Interview Scheduled">{t("status.interviewScheduled")}</option>
-                              <option value="Screening">{t("status.screening")}</option>
-                              <option value="First Call">{t("status.firstCall")}</option>
-                              <option value="Offered">{t("status.offered")}</option>
-                              <option value="Rejected">{t("status.rejected")}</option>
+                              <option value="Interview Scheduled">{t("applicants.statusInterviewScheduled")}</option>
+                              <option value="Screening">{t("applicants.statusScreening")}</option>
+                              <option value="First Call">{t("applicants.statusFirstCall")}</option>
+                              <option value="Offered">{t("applicants.statusOffered")}</option>
+                              <option value="Rejected">{t("applicants.statusRejected")}</option>
                             </select>
                           </td>
                           <td className="px-6 py-3 whitespace-nowrap">
@@ -665,7 +826,26 @@ export default function Applicants() {
                               {t(`applicants.priority${applicant.priority}`)}
                             </span>
                           </td>
-                          <td className="px-6 py-3 whitespace-nowrap text-xs text-gray-600">{t(getActionKey(applicant.nextAction))}</td>
+                          <td className="px-6 py-3 whitespace-nowrap">
+                            {editingActionId === applicant.id ? (
+                              <input
+                                type="text"
+                                value={tempActionValue}
+                                onChange={handleActionInputChange}
+                                onKeyDown={(e) => handleActionInputKeyDown(e, applicant.id)}
+                                onBlur={() => handleActionInputBlur(applicant.id)}
+                                autoFocus
+                                className="text-xs text-gray-900 bg-white border border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded px-2 py-1 w-full min-w-[120px]"
+                              />
+                            ) : (
+                              <div
+                                onClick={() => handleActionClick(applicant.id, getApplicantAction(applicant))}
+                                className="text-xs text-gray-900 cursor-pointer hover:bg-indigo-50 rounded px-2 py-1 transition-colors"
+                              >
+                                {getApplicantAction(applicant)}
+                              </div>
+                            )}
+                          </td>
                           <td className="px-6 py-3 whitespace-nowrap">
                             <div className="flex items-center gap-2">
                               <Link to={`/applicants/${applicant.id}`}>
