@@ -1,7 +1,7 @@
 
-  # Inishi AI Mobile App Design
+  # Employer Dashboard Design
 
-  This is a code bundle for Inishi AI Mobile App Design. The original project is available at https://www.figma.com/design/E732cNXPfmxLles4jVxL7b/Inishi-AI-Mobile-App-Design.
+  This is a code bundle for Employer Dashboard Design. The original project is available at https://www.figma.com/design/xwVEMNPi58zQHr0akuGB2E/Employer-Dashboard-Design.
 
   ## Running the code
 

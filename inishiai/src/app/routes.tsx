@@ -1,89 +1,49 @@
 import { createBrowserRouter } from "react-router";
-import { Welcome } from "./screens/Welcome";
-import { Onboarding1 } from "./screens/Onboarding1";
-import { Onboarding2 } from "./screens/Onboarding2";
-import { Onboarding3 } from "./screens/Onboarding3";
-import { ChooseMethod } from "./screens/ChooseMethod";
-import { UploadResume } from "./screens/UploadResume";
-import { EnhanceWithVoice } from "./screens/EnhanceWithVoice";
-import { MicrophonePermission } from "./screens/MicrophonePermission";
-import { VoiceQuestion } from "./screens/VoiceQuestion";
-import { VoiceInteraction } from "./screens/VoiceInteraction";
-import { Recording } from "./screens/Recording";
-import { Results } from "./screens/Results";
-import { CandidateInsights } from "./screens/CandidateInsights";
-import { SaveProfile } from "./screens/SaveProfile";
-import { JobMatch } from "./screens/JobMatch";
-import { CompleteProfile } from "./screens/CompleteProfile";
-import { ProfileComplete } from "./screens/ProfileComplete";
+import { HomePage } from "./pages/HomePage";
+import { PricingPage } from "./pages/PricingPage";
+import { LoginPage } from "./pages/LoginPage";
+import { SignupPage } from "./pages/SignupPage";
+import { DashboardPage } from "./pages/DashboardPage";
+import { CreateJobPage } from "./pages/CreateJobPage";
+import { JobMatchesPage } from "./pages/JobMatchesPage";
+import { CandidateProfilePage } from "./pages/CandidateProfilePage";
+import { BillingPage } from "./pages/BillingPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    Component: Welcome,
+    Component: HomePage,
   },
   {
-    path: "/onboarding-1",
-    Component: Onboarding1,
+    path: "/pricing",
+    Component: PricingPage,
   },
   {
-    path: "/onboarding-2",
-    Component: Onboarding2,
+    path: "/login",
+    Component: LoginPage,
   },
   {
-    path: "/onboarding-3",
-    Component: Onboarding3,
+    path: "/signup",
+    Component: SignupPage,
   },
   {
-    path: "/choose-method",
-    Component: ChooseMethod,
+    path: "/dashboard",
+    Component: DashboardPage,
   },
   {
-    path: "/upload-resume",
-    Component: UploadResume,
+    path: "/create-job",
+    Component: CreateJobPage,
   },
   {
-    path: "/enhance-with-voice",
-    Component: EnhanceWithVoice,
+    path: "/job-matches/:id",
+    Component: JobMatchesPage,
   },
   {
-    path: "/permission",
-    Component: MicrophonePermission,
+    path: "/candidate/:id",
+    Component: CandidateProfilePage,
   },
   {
-    path: "/question",
-    Component: VoiceQuestion,
-  },
-  {
-    path: "/voice",
-    Component: VoiceInteraction,
-  },
-  {
-    path: "/recording",
-    Component: Recording,
-  },
-  {
-    path: "/results",
-    Component: Results,
-  },
-  {
-    path: "/insights",
-    Component: CandidateInsights,
-  },
-  {
-    path: "/save-profile",
-    Component: SaveProfile,
-  },
-  {
-    path: "/job-match",
-    Component: JobMatch,
-  },
-  {
-    path: "/complete-profile",
-    Component: CompleteProfile,
-  },
-  {
-    path: "/profile-complete",
-    Component: ProfileComplete,
+    path: "/billing",
+    Component: BillingPage,
   },
 ]);
